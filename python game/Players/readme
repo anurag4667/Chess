@@ -1,0 +1,19 @@
+players
+======================
+playerid varchar(20) primary
+rating int not null
+rank int not null
+matchwon int
+matchlost int
+totalmatches int
+incomplete int
+======================
+
+matches
+======================
+matchno int primary
+playerid varchar(20) foreign not null
+playerid2 varchar(20) not null
+matchwon varchar(20) 
+incomplete varchar(20) not null
+======================
