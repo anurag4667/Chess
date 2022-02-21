@@ -167,6 +167,27 @@ def setrank(rating):
             mycur.execute(query)
             mydb.commit()
     return data[0]
+def updaterank():
+    query = "select rating from players order by rating desc"
+    mycur.execute(query)
+    data = mycur.fetchall()
+
+    rating = data[0][0]
+    rating = str(rating)
+    query = "update players set rank = "+str(1)+" where rating = "+rating+""
+    mycur.execute(query)
+    rank = 1
+    for i in range(2,len(data)+1):
+        if data[i-1][0] < data[i-2][0]:
+            rank += 1
+            rating = str(data[i-1][0])
+            query = "update players set rank = "+str(rank)+" where rating = "+rating+""
+            mycur.execute(query)
+        else:
+            rating = str(data[i-1][0])
+            query = "update players set rank = "+str(rank)+" where rating = "+rating+""
+            mycur.execute(query)
+    mydb.commit()
 def getrank(playerid):
     query = "select rank from players where playerid = '"+playerid+"'"
     mycur.execute(query)
@@ -243,12 +264,14 @@ def matchcreated(playerid1,playerid2):
     mydb.commit()
     return matchno
 def matchended(winner,loser,matchno):
+    global score
     global scoreno
     global playerid
     os.chdir("C://Users//prach//Desktop//python game//Players"+"//"+playerid+"//INCOMPLETE_MATCH")
     os.remove(matchno + ".dat")
     updaterating(winner,loser,True)
     scoreno = getrating(winner)
+    score = "score : " + str(scoreno)
     winnerrating = getrating(winner)
     rank = setrank(winnerrating)
     query = "update players set rank = "+str(rank)+" where playerid = '"+winner+"'"
@@ -276,7 +299,7 @@ def matchended(winner,loser,matchno):
 
     query = "update matches set incomplete = FALSE where matchno = "+matchno+""
     mycur.execute(query)
-
+    updaterank()
     mydb.commit()
 class button():
     def __init__(self, color, x,y,width,height, text=''):
@@ -578,7 +601,8 @@ def statsinfo():
     data = mycur.fetchone()
     run = True
     while run:
-        addtext("Player ID: "+playerid,140,50,(0,0,0),30)
+        addtext("Rank: "+str(data[2]),140,20,(0,0,0),30)
+        addtext("Player ID: "+playerid,140,55,(0,0,0),30)
         addtext("Rating: "+str(data[1]),140,90,(0,0,0),30)
         addtext("Matchwon: "+str(data[3]),140,130,(0,0,0),30)
         addtext("Matchlost: "+str(data[4]),140,170,(0,0,0),30)
@@ -2015,12 +2039,12 @@ def maingame():
             
 while run:
     redrawWindow()
-    addtext(playerid,0,0)
+    addtext(playerid,10,0)
     addtext(score,300,0)
     pygame.display.update()
     for event in pygame.event.get():
         redrawWindow()
-        addtext(playerid,0,0)
+        addtext(playerid,10,0)
         addtext(score,300,0)
         pygame.display.update()
         pos = pygame.mouse.get_pos()
