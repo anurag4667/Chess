@@ -997,7 +997,7 @@ def castling(p1,ip,fp):
     global wr2castling
     global whitekingpos
     global blackkingpos
-
+    record = open("C://Users//prach//Desktop//python game//Players"+"//"+playerid+"//MATCHESPLAYED//"+matchno+".txt","a")
     if "w" in p1:
         if fp == (7,6):
             if whitekingcastling:
@@ -1007,6 +1007,7 @@ def castling(p1,ip,fp):
                             break
                     else:
                         print("O-O",end = " ")
+                        record.write("O-O ")
                         board[7][6] = "wk"
                         board[7][5] = "wr"
                         board[7][4] = board[7][7] = "0"
@@ -1021,6 +1022,7 @@ def castling(p1,ip,fp):
                             break
                     else:
                         print("O-O-O",end = " ")
+                        record.write("O-O-O ")
                         board[7][1] = "wk"
                         board[7][2] = "wr"
                         board[7][0] = board[7][4] = "0"
@@ -1036,6 +1038,7 @@ def castling(p1,ip,fp):
                             break
                     else:
                         print("O-O")
+                        record.write("O-O\n")
                         board[0][6] = "k"
                         board[0][5] = "r"
                         board[0][4] = board[0][7] = "0"
@@ -1050,6 +1053,7 @@ def castling(p1,ip,fp):
                             break
                     else:
                         print("O-O-O")
+                        record.write("O-O-O\n")
                         board[0][1] = "k"
                         board[0][2] = "r"
                         board[0][0] = board[0][4] = "0"
