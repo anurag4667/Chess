@@ -1,3 +1,6 @@
+Create these 2 tables in database
+
+
 players
 ======================
 playerid varchar(20) primary
@@ -17,3 +20,5 @@ playerid2 varchar(20) not null
 matchwon varchar(20) 
 incomplete varchar(20) not null
 ======================
+
+
